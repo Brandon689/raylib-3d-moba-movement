@@ -32,7 +32,7 @@ int main(void) {
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
             Ray mouseRay = GetMouseRay(GetMousePosition(), camera);
             float distance = 0.0f;
             Vector3 groundPoint = { 0.0f, 0.0f, 0.0f };
