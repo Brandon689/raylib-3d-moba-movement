@@ -29,6 +29,10 @@ int main(void) {
     Vector3 playerSize = { 2.0f, 2.0f, 2.0f };
     float speed = 0.05f;
 
+    // Health bar variables
+    float maxHealth = 100.0f;
+    float currentHealth = maxHealth - 20.0f;
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
@@ -44,19 +48,22 @@ int main(void) {
                 targetPosition.z = hitPosition.z;
             }
         }
-
         playerPosition = Vector3Lerp(playerPosition, targetPosition, speed);
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        BeginMode3D(camera);
-        Vector3 playerDirection = Vector3Subtract(targetPosition, playerPosition);
-        float rotationAngle = atan2f(playerDirection.x, playerDirection.z);
-        Vector3 playerRotation = { 0.0f, rotationAngle * RAD2DEG, 0.0f };
 
+        BeginMode3D(camera);
         DrawCubeWiresV(playerPosition, playerSize, BLUE);
         DrawGrid(30, 1.0f);
         EndMode3D();
+
+        Vector2 healthBarPos = GetWorldToScreen(Vector3{ playerPosition.x, playerPosition.y + 3.0f, playerPosition.z }, camera);
+
+        DrawRectangleRec({ healthBarPos.x - 52, healthBarPos.y - 2, 104, 24 }, GRAY);
+        DrawRectangleRec( { healthBarPos.x - 50, healthBarPos.y, 100, 20 }, BLACK);
+        DrawRectangleRec( { healthBarPos.x - 50, healthBarPos.y, 100 * (currentHealth / maxHealth), 20 }, GREEN);
+
         DrawText("Click on the ground to move the player cube", 10, 10, 20, DARKGRAY);
         EndDrawing();
     }
